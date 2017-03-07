@@ -1,0 +1,48 @@
+<!--
+  ~ Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<div class="main-content">
+    <h2>Getting Started</h2>
+
+    <p>WSO2 Identity Server is an identity and entitlement management server that facilitates security while connecting and managing multiple identities across different applications. It enables enterprise architects and developers to improve customer experience through a secure single sign-on environment.The multi-tenant WSO2 Identity Server, can be deployed directly on servers or in the cloud, and has the ability to propagate identities across geographical and enterprise borders in a connected business environment.</p>
+
+    <p> The REST API is implemented based on REST best practices and specifications as a CXF REST web application running on WSO2 Identity Server. API development is started with a swagger specification with a contract-first approach.The API comes with a pluggable security mechanism. Since API security is implemented as a CXF handler, if you need to plug a custom security mechanism, you can write your own handler and add it to the web service.
+    </p>
+
+    <p>
+    For the Identity Management Recovery API, execute the methods in the order it is listed, in the following sections:
+    </p>
+    <h4> Recover with Notification</h4>
+    <OL>
+     <LI><strong>sendRecoveryNotification() :</strong> Validates user and returns a new key through a notification. </br>
+     <LI><strong>updatePassword() :</strong> Updates the password in the system. Extract the key your recived from the response of the previous step (sendRecoveryNotification request) and include it along with a new password, for this step.
+ </OL>
+ <h4> Recover with Secret Questions</h4>
+ 
+ <OL>
+     <LI><strong>intiateUserChallengeQuestion() :</strong>Validates user and returns a pre-defined challenge question to answer along with a secret code. </br>
+ <LI><strong>validateChallengeAnswers() :</strong>Validates secret code and answer to the challenge question provided in the previous step. Returns a new question with a new secret code until minimum number of questions are answered. </br>
+<LI><strong>updatePassword() :</strong> Updates the password in the system. Extract the key you received from the response to the previous step and include it along with the new password, for this step.
+
+ </OL>
+ <h4> Recover with Multiple Challenge Questions at Once</h4>
+ <OL>
+ <LI> <strong>getAllChallegeQuestions() :</strong> Validates user and returns all challenge questions to answer, along with a secret code. </br>
+ <LI> <strong>validateChallengeAnswers() : </strong>Validates all answers and the code, then returns a code if validation is successful.</br>
+<LI> <strong>updatePassword() :</strong> Updates the password in the system. Extract the key your recived from the response of the previous step (sendRecoveryNotification request) and include it along with a new password, for this step.
+ </OL>
+
+</div>
