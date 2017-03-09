@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <parent>
+        <groupId>org.wso2</groupId>
+        <artifactId>wso2</artifactId>
+        <version>1</version>
+    </parent>
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -9,7 +15,7 @@
     <artifactId>swagger-document-generator</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
     <build>
         <plugins>
@@ -31,13 +37,20 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.basedir}/src/main/resources/${swagger.yaml.file.name}</inputSpec>
-                            <language>org.wso2.swagger.document.generator.codegen.DynamicHtmlGen</language>
-                            <templateDirectory>${project.basedir}/src/main/resources/doc-templates</templateDirectory>
+                            <inputSpec>${project.basedir}/swagger-yaml/${swagger.yaml.file.name}</inputSpec>
+                            <language>org.wso2.carbon.apimgt.rest.api.util.codegen.DynamicHtmlGen</language>
+                            <templateDirectory>${project.basedir}/templates</templateDirectory>
                             <output>src/main/resources/api-docs</output>
                         </configuration>
                     </execution>
                 </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.wso2.carbon.apimgt</groupId>
+                        <artifactId>org.wso2.carbon.apimgt.rest.api.util</artifactId>
+                        <version>6.1.72</version>
+                    </dependency>
+                </dependencies>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -45,34 +58,67 @@
                 <version>1.8</version>
                 <executions>
                     <execution>
+                        <id>clean-resources</id>
                         <phase>clean</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
                         <configuration>
                             <target>
                                 <delete dir="${project.basedir}/src/main/resources/api-docs/docs/operations"/>
                                 <delete dir="${project.basedir}/src/main/resources/api-docs/docs/models"/>
+                                <delete file="${project.basedir}/doc/doc.zip"/>
                             </target>
                         </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>install</phase>
                         <goals>
                             <goal>run</goal>
                         </goals>
+                        <configuration>
+                            <target>
+                                <copy file="${project.basedir}/templates/guide.html" todir="${project.basedir}/src/main/resources/api-docs/docs"/>
+                                <copy file="${project.basedir}/templates/configuring-rest-api.html" todir="${project.basedir}/src/main/resources/api-docs/docs"/>
+                            </target>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>build-zip</id>
+                        <phase>post-site</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <zip destfile="${project.basedir}/doc/doc.zip"
+                                     basedir="${project.basedir}/src/main/resources/api-docs/docs"
+                                />
+                            </target>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
         </plugins>
     </build>
 
-    <dependencies>
-        <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-models</artifactId>
-            <version>1.5.10</version>
-        </dependency>
-        <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-codegen</artifactId>
-            <version>2.2.1</version>
-        </dependency>
-    </dependencies>
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>2.9</version>
+                <reportSets>
+                    <reportSet>
+                        <configuration>
+                            <skip>true</skip>
+                        </configuration>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+        </plugins>
+    </reporting>
 
     <properties>
         <swagger.yaml.file.name>api.identity.user.yaml</swagger.yaml.file.name>

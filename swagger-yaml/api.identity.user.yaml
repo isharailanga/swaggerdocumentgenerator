@@ -58,7 +58,7 @@ paths:
       description: |
          This API is used to user self registration.
       x-wso2-request: |
-        curl -X POST -H "Authorization: Basic YWRtaW46YWRtaW4=" -H "Content-Type: application/json" -d '{"user": {"username": "omindu","domain": "ENGINEERING", "password": "P@ssw0rd2017","claims": [{"uri": "http://wso2.org/claims/givenname","value": "Omindu" },{"uri": "http://wso2.org/claims/emailaddress","value": "omindu@mail.com"},{"uri": "http://wso2.org/claims/lastname","value": "Karunaratne"},{"uri": "http://wso2.org/claims/mobile","value": "+947721584558"} ] },"properties": []}' "https://localhost:9292/me"
+        curl -X POST -H "Authorization: Basic YWRtaW46YWRtaW4=" -H "Content-Type: application/json" -d '{"user": {"username": "omindu","domain": "ENGINEERING", "password": "P@ssw0rd2017","claims": [{"uri": "http://wso2.org/claims/givenname","value": "Omindu" },{"uri": "http://wso2.org/claims/emailaddress","value": "omindu@mail.com"},{"uri": "http://wso2.org/claims/lastname","value": "Karunaratne"},{"uri": "http://wso2.org/claims/mobile","value": "+947721584558"} ] },"properties": []}' "https://localhost:9292/api/identity/user/v1/me"
 
       x-wso2-response: |
         "HTTP/1.1 201 Created"
@@ -105,7 +105,7 @@ paths:
          This API is used to validate code of self reigstered users
       x-wso2-request: |
         curl -k -v -X POST -H "Authorization: Basic YWRtaW46YWRtaW4=" -H "Content-Type: application/json" -d '{
-        "code": "84325529-8aa7-4851-8751-5980a7f2d9f7","properties": []}' "https://localhost:9292/validate-code"
+        "code": "84325529-8aa7-4851-8751-5980a7f2d9f7","properties": []}' "https://localhost:9292/api/identity/user/v1/validate-code"
 
       x-wso2-response: |
         "HTTP/1.1 202 Accepted"
@@ -143,7 +143,7 @@ paths:
          This API is used to resend confirmation code, if it is missing.
       x-wso2-request: |
         curl -X POST -H "Authorization: Basic YWRtaW46YWRtaW4=" -H "Content-Type: application/json" -d
-        '{"user":{"username": "isura","domain": "ENGINEERING"},"properties": []}' "https://localhost:9292/resend-code"
+        '{"user":{"username": "isura","domain": "ENGINEERING"},"properties": []}' "https://localhost:9292/api/identity/user/v1/resend-code"
 
       x-wso2-response: |
         "HTTP/1.1 201 Created"

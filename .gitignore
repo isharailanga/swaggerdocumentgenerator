@@ -19,7 +19,7 @@ hs_err_pid*
 .gitignore
 .idea/workspace.xml
 src/main/resources/api-docs/docs/assets/css/style.css~
-src/main/resources/doc-templates/assets/css/style.css~
+templates/assets/css/style.css~
 target/
 .idea/
 
